@@ -8,7 +8,7 @@ import os
 import shutil
 import uuid
 from captcha.image import ImageCaptcha
-#zara
+
 import itertools
 
 import os
