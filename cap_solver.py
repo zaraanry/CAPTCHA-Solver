@@ -20,6 +20,7 @@ import keras
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten
 from keras.layers import Conv2D, MaxPooling2D
+import matplotlib.pyplot as plt
 
 
 def _gen_captcha(img_dir, num_of_letters, num_of_repetition, width, height):
@@ -49,7 +50,7 @@ def gen_dataset(path, num_of_repetition, num_of_letters, width, height):
 
 BATCH_SIZE = 128
 NUM_OF_LETTERS = 3
-EPOCHS = 10
+EPOCHS = 30
 IMG_ROW, IMG_COLS = 50, 135
 
 # Non-configs
@@ -126,11 +127,29 @@ if __name__ == "__main__":
                   optimizer=opt,
                   metrics=['accuracy'])
 
-    model.fit(x_train, y_train,
+    history = model.fit(x_train, y_train,
               batch_size=BATCH_SIZE,
               epochs=EPOCHS,
               verbose=1,
               validation_data=(x_test, y_test))
+
+    # Plot training & validation accuracy values
+    plt.plot(history.history['acc'])
+    plt.plot(history.history['val_acc'])
+    plt.title('Model accuracy')
+    plt.ylabel('Accuracy')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
+    plt.show()
+
+    # Plot training & validation loss values
+    plt.plot(history.history['loss'])
+    plt.plot(history.history['val_loss'])
+    plt.title('Model loss')
+    plt.ylabel('Loss')
+    plt.xlabel('Epoch')
+    plt.legend(['Train', 'Test'], loc='upper left')
+    plt.show()
 
     # Save model and weights
     if not os.path.isdir(save_dir):
@@ -140,6 +159,10 @@ if __name__ == "__main__":
     print('Saved trained model at %s ' % model_path)
 
     # Score trained model.
+    scores = model.evaluate(x_train, y_train, verbose=1)
+    print('Train loss:     %.2f' % scores[0])
+    print('Train accuracy: %.2f' % (scores[1]*100.))
+
     scores = model.evaluate(x_test, y_test, verbose=1)
     print('Test loss:     %.2f' % scores[0])
-    print('Test accuracy: %.2f' % scores[1])
+    print('Test accuracy: %.2f' % (scores[1]*100.))
