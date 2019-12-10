@@ -49,7 +49,7 @@ def gen_dataset(path, num_of_repetition, num_of_letters, width, height):
 
 
 BATCH_SIZE = 128
-NUM_OF_LETTERS = 3
+NUM_OF_LETTERS = 5
 EPOCHS = 30
 IMG_ROW, IMG_COLS = 50, 135
 
