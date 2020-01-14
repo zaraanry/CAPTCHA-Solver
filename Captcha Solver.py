@@ -57,7 +57,7 @@ DATA_PATH = os.path.join(PATH, 'train')
 
 
 def load_data(path, test_split=0.1):
-    print 'loading dataset...'
+    print ('loading dataset...')
     y_train = []
     y_test = []
     x_train = []
@@ -76,7 +76,7 @@ def load_data(path, test_split=0.1):
 
                 img = cv2.imread(os.path.join(r, fl))
                 img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-                img = cv2.resize(img, (135/2, 50/2), interpolation=cv2.INTER_AREA)
+                img = cv2.resize(img, (int(135/2), int(50/2)), interpolation=cv2.INTER_AREA)
                 img = np.reshape(img, (img.shape[0], img.shape[1], 1))
 
                 if random() < test_split:
@@ -92,7 +92,7 @@ def load_data(path, test_split=0.1):
 
 if not os.path.exists(DATA_PATH):
     print('Generating Dataset')
-    gen_dataset(DATA_PATH, 8, NUM_OF_LETTERS, IMG_COLS, IMG_ROW)
+    gen_dataset(DATA_PATH, 8 , NUM_OF_LETTERS, IMG_COLS, IMG_ROW)
 
 
 x_train, y_train, x_test, y_test = load_data(DATA_PATH)
