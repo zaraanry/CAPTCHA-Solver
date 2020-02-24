@@ -2,10 +2,6 @@
 # coding: utf-8
 
 import argparse
-import argparse
-
-
-import argparse
 import json
 import string
 import os
